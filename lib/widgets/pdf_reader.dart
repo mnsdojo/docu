@@ -82,5 +82,10 @@ class PdfReaderState extends State<PdfReader> {
     );
   }
 
-  Future<void> _loadDocument() async {}
+  Future<void> _loadDocument() async {
+    final pageCount = _pdfControllerPinch.pagesCount;
+    setState(() {
+      _totalPage = pageCount ?? 0;
+    });
+  }
 }
