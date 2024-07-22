@@ -1,6 +1,9 @@
+import 'package:docu/utils/app_state.dart';
+import 'package:docu/widgets/app_drawer.dart';
 import 'package:docu/widgets/pdf_reader.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,25 +19,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: _pickPDF,
-            icon: const Icon(Icons.add),
-          )
-        ],
-        title: const Text("Docu"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: _pdfFilePath != null
-            ? PdfReader(filePath: _pdfFilePath!)
-            : const Center(
-                child: Text("No Pdf Selected "),
-              ),
-      ),
-    );
+    return Consumer<AppState>(builder: (context, appstate, child) {
+      return Scaffold(
+        drawer: const AppDrawer(appName: "Docu", appVersion: "1.0"),
+        appBar: AppBar(
+          title: const Text("Docu"),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _pickPDF,
+          tooltip: "Pick Pdf",
+          child: const Icon(Icons.add),
+        ),
+      );
+    });
   }
 
   Future<void> _pickPDF() async {
